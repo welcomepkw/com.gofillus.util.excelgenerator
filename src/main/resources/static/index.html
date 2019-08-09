@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Excel Generator Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script  src="https://code.jquery.com/jquery-1.12.4.min.js"  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="  crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/js/ExcelGenerator.js"></script>
+    <style type="text/css">
+    	.sheets thead th{
+    		background: #d2e5f1;
+		    padding: 7px 0;
+		    font-family: "NanumGothic Bold";
+		    font-weight: normal;
+		    line-height: 20px;
+		    min-width: 20px;
+    	}
+    	
+    	.sheets tbody td{
+    	}
+    </style>
+    
+    <script type="text/javascript">
+    	function excelGen(){
+    		var sheet1 = ExcelGenerator.convertTableToJson($(".sheets").eq(0), 'sheet1');
+    		var sheet2 = ExcelGenerator.convertTableToJson($(".sheets").eq(1), 'sheet2');
+    		
+    		if(sheet1 instanceof Error){
+    			alert('error with gen excel sheet.');
+    			console.log(sheet1);
+    			return;
+    		}
+    		
+    		if(sheet2 instanceof Error){
+    			alert('error with gen excel sheet.');
+    			console.log(sheet2);
+    			return;
+    		}
+    		
+    		var excelRequest = ExcelGenerator.combineSheetsToRequestData([sheet1, sheet2], 'example.xlsx');
+    		$("#frmDown").prop("action", "/exam/genJsonToExcel");
+    		$("#frmDown #paramDown").attr("name", "excelData");
+    		$("#frmDown #paramDown").val(JSON.stringify(excelRequest));
+    		console.log(excelRequest);
+    		$("#frmDown").submit();
+    	}
+    </script>
+</head>
+<body>
+	<form method="post" name="frmDown" id="frmDown" enctype="multipart/form-data">
+		<input style="display: none;" id="paramDown">
+	</form>
+
+	<div class="sheets sheet1">
+	    <table>
+	    	<thead>
+	    		<tr>
+	    			<th>seq</th>
+	    			<th>name</th>
+	    			<th>age</th>
+	    			<th>gender</th>
+	    		</tr>
+	    	</thead>
+	    	<tbody>
+	    		<tr>
+	    			<td>1</td>
+	    			<td>david</td>
+	    			<td>20</td>
+	    			<td>male</td>
+	    		</tr>
+	    		<tr>
+	    			<td>2</td>
+	    			<td>david</td>
+	    			<td>20</td>
+	    			<td>male</td>
+	    		</tr>
+	    		<tr>
+	    			<td>3</td>
+	    			<td>david</td>
+	    			<td>20</td>
+	    			<td>male</td>
+	    		</tr>
+	    		<tr>
+	    			<td>4</td>
+	    			<td>david</td>
+	    			<td>20</td>
+	    			<td>male</td>
+	    		</tr>
+	    		<tr>
+	    			<td>5</td>
+	    			<td>david</td>
+	    			<td>20</td>
+	    			<td>male</td>
+	    		</tr>
+	    	</tbody>
+	    </table>
+    </div>
+    <div class="sheets sheet2">
+	    <table>
+	    	<thead>
+	    		<tr>
+	    			<th>seq</th>
+	    			<th>name</th>
+	    			<th>age</th>
+	    			<th>gender</th>
+	    		</tr>
+	    	</thead>
+	    	<tbody>
+	    		<tr>
+	    			<td>1</td>
+	    			<td>david</td>
+	    			<td>20</td>
+	    			<td>male</td>
+	    		</tr>
+	    		<tr>
+	    			<td>2</td>
+	    			<td>david</td>
+	    			<td>20</td>
+	    			<td>male</td>
+	    		</tr>
+	    		<tr>
+	    			<td>3</td>
+	    			<td>david</td>
+	    			<td>20</td>
+	    			<td>male</td>
+	    		</tr>
+	    		<tr>
+	    			<td>4</td>
+	    			<td>david</td>
+	    			<td>20</td>
+	    			<td>male</td>
+	    		</tr>
+	    		<tr>
+	    			<td>5</td>
+	    			<td>david</td>
+	    			<td>20</td>
+	    			<td>male</td>
+	    		</tr>
+	    	</tbody>
+	    </table>
+    </div>
+    <div>
+    	<button type="button" onclick="excelGen();">Excel Generate</button>
+    </div>
+</body>
+</html>
