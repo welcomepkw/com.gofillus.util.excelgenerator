@@ -1,7 +1,7 @@
 /**
- * @author kay park
+ * @author v.kwpark
  * @date 19.08.01
- * @desc Excel Generator protocol for ExcelGenerator.java
+ * @desc ExcelGenerator.java 에서 엑셀로 생성하기 위한 프로토콜
  * @dependency jQuery >= 1.2
  */
 var ExcelGenerator = new function(){
@@ -14,17 +14,6 @@ var ExcelGenerator = new function(){
 			, BLANK : 'BLANK'
 			, BOOLEAN : 'BOOLEAN'
 			, ERROR : 'ERROR'
-	}
-	
-	this.CELL_HORIZONTALALIGNMENT = {
-			GENERAL : 'GENERAL'
-			, LEFT : 'LEFT'
-			, CENTER : 'CENTER'
-			, RIGHT : 'RIGHT'
-			, FILL : 'FILL'
-			, JUSTIFY : 'JUSTIFY'
-			, CENTER_SELECTION : 'CENTER_SELECTION'
-			, DISTRIBUTED : 'DISTRIBUTED'
 	}
 	
 	/**
@@ -54,7 +43,6 @@ var ExcelGenerator = new function(){
 			$(ths).each(function(index, obj){
 				var titleObj = {};
 				titleObj['backgroundColor'] = $(obj).css("background-color");
-				titleObj['horizontalAlignment'] = ExcelGenerator.CELL_HORIZONTALALIGNMENT.CENTER;
 				titleObj['data'] = $(obj).text();
 				titleObj['cellType'] = _getCellType($(obj).text());
 				_getCellType(titleObj, $(obj).text());
@@ -69,8 +57,18 @@ var ExcelGenerator = new function(){
 				$(tds).each(function(index2, obj2){
 					var dataObj = {};
 					dataObj['backgroundColor'] = $(obj2).css("background-color");
-					dataObj['data'] = $(obj2).text();
-					dataObj['cellType'] = _getCellType($(obj2).text());
+					if($(obj2).find("input[type='checkbox']").length > 0){
+						dataObj['data'] = $(obj2).find("input[type='checkbox']").prop("checked")?'Y':'N';
+					}else if($(obj2).find("input[type='radio']").length > 0){
+						dataObj['data'] = $(obj2).find("input[type='radio']").prop("checked")?'Y':'N';
+					}else if($(obj2).find("input[type='text']").length > 0){
+						dataObj['data'] = $(obj2).find("input[type='text']").val();
+					}else if($(obj2).find("input[type='number']").length > 0){
+						dataObj['data'] = $(obj2).find("input[type='number']").val();
+					}else{
+						dataObj['data'] = $(obj2).text();
+					}
+					dataObj['cellType'] = _getCellType(dataObj['data']);
 					dataRow.columns.push(dataObj);
 				})
 				
