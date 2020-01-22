@@ -5,7 +5,7 @@ Support xls, xlsx.
 이 라이브러리는 Json data 와 Java Object 를 활용해서 Excel 파일을 생성합니다.
 
 ## Why make this
-- Use agin later :)
+- Use again later :)
 
 ## target JDK
 - jdk 1.8
